@@ -15,6 +15,13 @@ public class PrintUtil {
         System.out.println(s);
     }
 
+    public static void println(String s, String tag) {
+        println("");
+        println("<------------------Begin print TAG ： " + tag + "------------------------>");
+        println(s);
+        println("<--------------------END print TAG ： " + tag + "------------------------>");
+    }
+
     /**
      * 打印一个int数组
      * @param a    int数组

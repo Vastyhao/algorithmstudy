@@ -1,6 +1,7 @@
 package com.vastyhao.algorithmstudy.util;
 
 /**
+ * 用于测试Util类
  * Created by Vastyhao on 2016/5/30.
  */
 public class UtilTest {
