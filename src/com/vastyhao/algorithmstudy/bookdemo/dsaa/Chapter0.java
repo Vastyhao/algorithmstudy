@@ -12,7 +12,7 @@ import com.vastyhao.algorithmstudy.util.PrintUtil;
  * 一、给一堆数， 然后找到其中第k大的数。 书中给了两种思路，作者认为这两个都在一定大小的输入后，变得非常慢。
  * 1. 将这m个数做排序， 返回第k个。
  * 2. 将给一个m大小的数组，然后一个一个过，比第m个大的，放到合适的地方，同时挤出最小的一个。
- * 实现起来感觉没有本质区别， 因为第二个在做k个buffer的时候需要排序， 做后面插入的时候，依然需要排序。。。
+ * 实现起来感觉没有本质区别， 因为第二个在做k个buffer的时候需要排序， 做后面插入的时候，依然需要排序。
  * Created by Vastyhao on 2016/5/30.
  */
 public class Chapter0 {
@@ -56,7 +56,7 @@ public class Chapter0 {
         for (int i = 0; i < m; i++) {
             buffer[i] = arr[i];
         }
-        //冒泡排序前k个
+        //冒泡排序前m个
         BubbleSort.sortIntArrayDesc(buffer);
         //比里面大的进入到合适的位置，并出去一个最小的
         for (int i = m; i < arr.length; i++) {
