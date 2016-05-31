@@ -24,7 +24,7 @@ import com.vastyhao.algorithmstudy.util.PrintUtil;
  *
  * Created by Vastyhao on 2016/5/30.
  */
-public class Chapter0 {
+public class Chapter1 {
 
     public static void main(String[] args) {
         executeMBiggest();
