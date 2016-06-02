@@ -35,6 +35,8 @@ public class Chapter2 {
         PrintUtil.printCurrentSystemMills();
         PrintUtil.println("" + maxSubSumRec(copyInput3, 0, copyInput3.length - 1), "递归左边右边中间， 获取结果");
         PrintUtil.printCurrentSystemMills();
+        PrintUtil.println("" + maxSubSum4(copyInput4), "直接遍历，得到的结果");
+        PrintUtil.printCurrentSystemMills();
     }
 
     /**
@@ -111,5 +113,30 @@ public class Chapter2 {
         }
         int centerMaxSum = maxCenterLeftSum + maxCenterRightSum;
         return CompareUtil.getBiggestInt(new int[] {leftMaxSum, rightMaxSum, centerMaxSum});
+    }
+
+    /**
+     * 可以考虑如下的因素：
+     * 1. 如果a[i]为负数，那么这个数，不可能是最大子序列的开头
+     * 2. 如果一串子串为负数，那么这个子串，不可能为最大子序列的开头，
+     * 3. 如果推进过程中，a[i] ~ a[j-1] 不为负数， a[i] ~ a[j]为负数，那么可以 直接从a[j+1] 开始推进。
+     *    因为从a[i] ~ a[p]必然为正数， 所以 a[p+1] ~ a[j]必然为负数。
+     * @param input 输入
+     * @return      最大值
+     */
+    public static int maxSubSum4(int[] input) {
+        int maxSum = 0;
+        int sum = 0;
+        for (int i = 0; i < input.length; i++) {
+            sum += input[i];
+            if (sum > 0) {
+                if (sum > maxSum) {
+                    maxSum = sum;
+                }
+            } else {
+                sum = 0;
+            }
+        }
+        return maxSum;
     }
 }
