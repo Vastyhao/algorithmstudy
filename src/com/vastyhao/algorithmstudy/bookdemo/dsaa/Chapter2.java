@@ -1,5 +1,6 @@
 package com.vastyhao.algorithmstudy.bookdemo.dsaa;
 
+import com.vastyhao.algorithmstudy.util.CompareUtil;
 import com.vastyhao.algorithmstudy.util.InputUtil;
 import com.vastyhao.algorithmstudy.util.PrintUtil;
 
@@ -19,7 +20,7 @@ import com.vastyhao.algorithmstudy.util.PrintUtil;
 public class Chapter2 {
 
     public static void main(String[] args) {
-        int[] input = InputUtil.createIntInput(20, -20, 20);
+        int[] input = InputUtil.createIntInput(1000, -1000, 1000);
         PrintUtil.printIntArray(input, "用于求最大子序列输入");
 
         int[] copyInput1 = input.clone();
@@ -27,8 +28,13 @@ public class Chapter2 {
         int[] copyInput3 = input.clone();
         int[] copyInput4 = input.clone();
 
+        PrintUtil.printCurrentSystemMills();
         PrintUtil.println("" + maxSubSum1(copyInput1), "采用3次循环，依次计算， 的方式求得的最大值");
+        PrintUtil.printCurrentSystemMills();
         PrintUtil.println("" + maxSubSum2(copyInput2), "改进3次循环，每次计算子串长度为之前的一个更小子串，加上一个最新的一个数字， 变成两次循环");
+        PrintUtil.printCurrentSystemMills();
+        PrintUtil.println("" + maxSubSumRec(copyInput3, 0, copyInput3.length - 1), "递归左边右边中间， 获取结果");
+        PrintUtil.printCurrentSystemMills();
     }
 
     /**
@@ -70,5 +76,40 @@ public class Chapter2 {
             }
         }
         return maxSum;
+    }
+
+    /**
+     * 使用递归，求得input数组中的 left开始 到 right结束 最大的子序列和
+     * @param input   输入
+     * @param left    开始索引
+     * @param right   结束索引
+     * @return        left开始到right 中的最大子序列
+     */
+    public static int maxSubSumRec(int[] input, int left, int right) {
+        //base case
+        if (left == right) {
+            return input[left] > 0 ? input[left] : 0;
+        }
+        int center = (left + right) / 2;
+        int leftMaxSum = maxSubSumRec(input, left, center);
+        int rightMaxSum = maxSubSumRec(input, center + 1, right);
+        int maxCenterLeftSum = 0;
+        int centerLeftSum = 0;
+        for (int i = center; i >= left; i--) {
+            centerLeftSum += input[i];
+            if (centerLeftSum > maxCenterLeftSum) {
+                maxCenterLeftSum = centerLeftSum;
+            }
+        }
+        int maxCenterRightSum = 0;
+        int centerRightSum = 0;
+        for (int i = center + 1; i <= right; i++) {
+            centerRightSum += input[i];
+            if (centerRightSum > maxCenterRightSum) {
+                maxCenterRightSum = centerRightSum;
+            }
+        }
+        int centerMaxSum = maxCenterLeftSum + maxCenterRightSum;
+        return CompareUtil.getBiggestInt(new int[] {leftMaxSum, rightMaxSum, centerMaxSum});
     }
 }

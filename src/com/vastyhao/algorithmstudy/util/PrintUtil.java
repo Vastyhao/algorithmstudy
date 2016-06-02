@@ -40,4 +40,8 @@ public class PrintUtil {
         println(sb.toString());
         println("<-------------------End print int array ： " + tag + "------------------------>");
     }
+
+    public static void printCurrentSystemMills() {
+        println("现在的时间为： " + System.currentTimeMillis());
+    }
 }
