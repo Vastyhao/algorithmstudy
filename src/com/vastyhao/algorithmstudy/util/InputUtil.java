@@ -20,4 +20,15 @@ public class InputUtil {
         }
         return a;
     }
+
+    /**
+     * 获取一个随机数
+     * @param min 最小值
+     * @param max 最大值
+     * @return 范围内的一个随机数
+     */
+    public static int createRandom(int min, int max) {
+        int[] random = createIntInput(1, min, max);
+        return random[0];
+    }
 }

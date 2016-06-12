@@ -1,5 +1,6 @@
 package com.vastyhao.algorithmstudy.bookdemo.dsaa;
 
+import com.vastyhao.algorithmstudy.sort.BubbleSort;
 import com.vastyhao.algorithmstudy.util.CompareUtil;
 import com.vastyhao.algorithmstudy.util.InputUtil;
 import com.vastyhao.algorithmstudy.util.PrintUtil;
@@ -23,6 +24,7 @@ public class Chapter2 {
         int[] input = InputUtil.createIntInput(1000, -1000, 1000);
         PrintUtil.printIntArray(input, "用于求最大子序列输入");
 
+        //用于最大子序列
         int[] copyInput1 = input.clone();
         int[] copyInput2 = input.clone();
         int[] copyInput3 = input.clone();
@@ -37,6 +39,13 @@ public class Chapter2 {
         PrintUtil.printCurrentSystemMills();
         PrintUtil.println("" + maxSubSum4(copyInput4), "直接遍历，得到的结果");
         PrintUtil.printCurrentSystemMills();
+
+        //用于折半查找
+        int[] binarySearchArray = InputUtil.createIntInput(10, -10, 10);
+        int searchNum = InputUtil.createRandom(-10, 10);
+        BubbleSort.sortIntArrayDesc(binarySearchArray);
+        PrintUtil.printIntArray(binarySearchArray, "折半查找输入, 在里面查找数字： " + searchNum);
+        PrintUtil.println("查找出来索引" + binarySearch(binarySearchArray, searchNum), "折半查找结果为");
     }
 
     /**
@@ -138,5 +147,28 @@ public class Chapter2 {
             }
         }
         return maxSum;
+    }
+
+    /**
+     * 折半查找：给定已经排序的数组和一个数字，如果已经存在在这个数组中，那么返回索引。否则返回-1
+     * @param descArray 排序好的数组
+     * @param num       数字
+     * @return          序列
+     */
+    public static int binarySearch(int[] descArray, int num) {
+        int left = 0;
+        int right = descArray.length - 1;
+        int compare = (left + right) / 2;
+        while (left <= right) {
+            if (descArray[compare] == num) {
+                return compare;
+            } else if (descArray[compare] < num) {
+                right = compare - 1;
+            } else {  //descArray[compare] > num
+                left = compare + 1;
+            }
+            compare = (left + right) / 2;
+        }
+        return -1;
     }
 }
