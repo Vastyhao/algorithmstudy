@@ -1,5 +1,6 @@
 package com.vastyhao.algorithmstudy.bookdemo.dsaa;
 
+
 import com.vastyhao.algorithmstudy.sort.BubbleSort;
 import com.vastyhao.algorithmstudy.util.CompareUtil;
 import com.vastyhao.algorithmstudy.util.InputUtil;
@@ -13,10 +14,17 @@ import com.vastyhao.algorithmstudy.util.PrintUtil;
  * 3. 粗心使用递归的后果
  * 4. 将一个数自乘得到其幂，以及求两个数的最小公因数的非常有效的方法
  *
- *
  * 题目一： 给定一串整数（可能为负）A1, A2, A3, A4...., 求 从i加到k的 最大值。
  *         例如： -2， 11， -4， 13， -2，-5    最大值为   2 ~ 4   20
  *
+ * 题目二： 折半查找
+ *
+ * 题目三： 欧几里得算法(辗转相除法): 设两数为a、b(a>b)，求a和b最大公约数(a，b)的步骤如下：
+ * 用a除以b，得a÷b=q......r1(0≤r1)。若r1=0，则(a，b)=b；若r1≠0，则再用b除以r1，得b÷r1=q......r2 (0≤r2）
+ * 若r2=0，则(a，b)=r1，若r2≠0，则继续用r1除以r2，……如此下去，直到能整除为止。其最后一个为被除数的余数的除数即为(a, b)。
+ * 例如：a=25,b=15，a/b=1......10,b/10=1......5,10/5=2.......0,最后一个为被除数余数的除数就是5,5就是所求最大公约数。
+ * 算法分析： 这个算法的快慢依赖于余数序列的长度， 但是可以证明经过两次迭代以后，算法规模必然小于N/2.
+ *          （输入为 M N， M > N,  则 M mod N < M/2）
  * Created by Vastyhao on 2016/5/31.
  */
 public class Chapter2 {
@@ -25,7 +33,7 @@ public class Chapter2 {
         int[] input = InputUtil.createIntInput(1000, -1000, 1000);
         PrintUtil.printIntArray(input, "用于求最大子序列输入");
 
-        //用于最大子序列
+        //最大子序列
         int[] copyInput1 = input.clone();
         int[] copyInput2 = input.clone();
         int[] copyInput3 = input.clone();
@@ -41,12 +49,18 @@ public class Chapter2 {
         PrintUtil.println("" + maxSubSum4(copyInput4), "直接遍历，得到的结果");
         PrintUtil.printCurrentSystemMills();
 
-        //用于折半查找
+        //折半查找
         int[] binarySearchArray = InputUtil.createIntInput(10, -10, 10);
         int searchNum = InputUtil.createRandom(-10, 10);
         BubbleSort.sortIntArrayDesc(binarySearchArray);
         PrintUtil.printIntArray(binarySearchArray, "折半查找输入, 在里面查找数字： " + searchNum);
         PrintUtil.println("查找出来索引" + binarySearch(binarySearchArray, searchNum), "折半查找结果为");
+
+        //辗转相除法（欧几里得算法） 求最大公约数
+        int m = InputUtil.createRandom(0, 50);
+        int n = InputUtil.createRandom(0, 50);
+        PrintUtil.println("输入为： " + m + "," + n, "欧几里得算法求最大公约数， 输入");
+        PrintUtil.println("最大公约数为 : " + gcb(m, n));
     }
 
     /**
@@ -171,5 +185,36 @@ public class Chapter2 {
             compare = (left + right) / 2;
         }
         return -1;
+    }
+
+    /**
+     * 使用辗转相除法，求最大公约数
+     * 算法分析： 这个算法的快慢依赖于余数序列的长度， 但是可以证明经过两次迭代以后，算法规模必然小于N/2.
+     *          （输入为 M N， M > N,  则 M mod N < M/2）
+     * @param m    数字1
+     * @param n    数字2
+     * @return          最大公约数
+     */
+    public static int gcb(int m, int n) {
+        int big, small;
+        if (m > n) {
+            big = m;
+            small = n;
+        } else {
+            big = n;
+            small = m;
+        }
+
+        int rem;
+        while (small != 0) {
+            rem = big % small;
+            if (rem == 0) {
+                return small;
+            } else {
+                big = small;
+                small = rem;
+            }
+        }
+        return 1;
     }
 }
