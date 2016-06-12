@@ -25,6 +25,9 @@ import com.vastyhao.algorithmstudy.util.PrintUtil;
  * 例如：a=25,b=15，a/b=1......10,b/10=1......5,10/5=2.......0,最后一个为被除数余数的除数就是5,5就是所求最大公约数。
  * 算法分析： 这个算法的快慢依赖于余数序列的长度， 但是可以证明经过两次迭代以后，算法规模必然小于N/2.
  *          （输入为 M N， M > N,  则 M mod N < M/2）
+ *
+ * 题目四； 幂运算 : 求X的n次方， base情况 n = 1, 那么就是X， 否则，如果n为偶数，可以变成两个x的n/2相乘，
+ *         如果是n为奇数，可以变成 两个 (n/2) 相乘 再乘以一个X
  * Created by Vastyhao on 2016/5/31.
  */
 public class Chapter2 {
@@ -61,6 +64,11 @@ public class Chapter2 {
         int n = InputUtil.createRandom(0, 50);
         PrintUtil.println("输入为： " + m + "," + n, "欧几里得算法求最大公约数， 输入");
         PrintUtil.println("最大公约数为 : " + gcb(m, n));
+
+        //幂运算
+        int base = InputUtil.createRandom(2, 5);
+        int pom = InputUtil.createRandom(2, 6);
+        PrintUtil.println(base + "的" + pom + "次方为" + pom(base, pom));
     }
 
     /**
@@ -68,7 +76,7 @@ public class Chapter2 {
      * @param input 输入
      * @return 最大值
      */
-    public static int maxSubSum1(int[] input) {
+    private static int maxSubSum1(int[] input) {
         int maxSum = 0;
         for (int i = 0; i < input.length; i++) {
             for (int j = i; j < input.length; j++) {
@@ -87,10 +95,10 @@ public class Chapter2 {
     /**
      * 这是对上面的算法的一个改进： 上面这个算法的 很多序列的计算是重复的， 比如 1~5的计算 可以是 1~4 + 5而不需要重新计算。
      *
-     * @param input
-     * @return
+     * @param input 输入
+     * @return      最大子序列和
      */
-    public static int maxSubSum2(int[] input) {
+    private static int maxSubSum2(int[] input) {
         int maxSum = 0;
         for (int i = 0; i < input.length; i++) {
             int sum = 0;
@@ -111,7 +119,7 @@ public class Chapter2 {
      * @param right   结束索引
      * @return        left开始到right 中的最大子序列
      */
-    public static int maxSubSumRec(int[] input, int left, int right) {
+    private static int maxSubSumRec(int[] input, int left, int right) {
         //base case
         if (left == right) {
             return input[left] > 0 ? input[left] : 0;
@@ -148,11 +156,11 @@ public class Chapter2 {
      * @param input 输入
      * @return      最大值
      */
-    public static int maxSubSum4(int[] input) {
+    private static int maxSubSum4(int[] input) {
         int maxSum = 0;
         int sum = 0;
-        for (int i = 0; i < input.length; i++) {
-            sum += input[i];
+        for (int num : input) {
+            sum += num;
             if (sum > 0) {
                 if (sum > maxSum) {
                     maxSum = sum;
@@ -170,7 +178,7 @@ public class Chapter2 {
      * @param num       数字
      * @return          序列
      */
-    public static int binarySearch(int[] descArray, int num) {
+    private static int binarySearch(int[] descArray, int num) {
         int left = 0;
         int right = descArray.length - 1;
         int compare = (left + right) / 2;
@@ -195,7 +203,7 @@ public class Chapter2 {
      * @param n    数字2
      * @return          最大公约数
      */
-    public static int gcb(int m, int n) {
+    private static int gcb(int m, int n) {
         int big, small;
         if (m > n) {
             big = m;
@@ -216,5 +224,27 @@ public class Chapter2 {
             }
         }
         return 1;
+    }
+
+    /**
+     * 计算一个数的n次方
+     * @param num 数字
+     * @param n   n次方
+     * @return    结果
+     */
+    private static int pom(int num, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
+            return num;
+        }
+        if (n % 2 == 0) {
+            int binary = pom(num, n/2);
+            return binary * binary;
+        } else {
+            int binay = pom(num, (n -1) / 2);
+            return binay * binay * num;
+        }
     }
 }
