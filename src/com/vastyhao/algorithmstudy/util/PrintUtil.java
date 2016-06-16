@@ -42,6 +42,15 @@ public class PrintUtil {
     }
 
     public static void printCurrentSystemMills() {
-        println("现在的时间为： " + System.currentTimeMillis());
+        println("" + "; 现在的时间为： " + System.currentTimeMillis());
+    }
+
+    public static void printCurrentSystemMills(String tag) {
+        println(tag + "; 现在的时间为： " + System.currentTimeMillis());
+    }
+
+    public static void printPassedMillis(String tag, long startMillis) {
+        long nowMillis = System.currentTimeMillis();
+        println(tag + "; 过去的时间为： " +  (nowMillis - startMillis));
     }
 }
